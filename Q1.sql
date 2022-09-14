@@ -5,5 +5,5 @@ SELECT 	COUNTRY,
 FROM transactions
 JOIN sellers
   ON  sellers.CUST_ID = transactions.CUST_ID
-WHERE DATEDIFF(TRANSACTION_DATE, CURDATE()) between 0 and 30
+WHERE DATEDIFF(TRANSACTION_DATE, CURDATE()) between 0 and 30 #No olvidar de cambiar el orden y la fecha de creación de los ejemplos
 GROUP BY COUNTRY, DATE_YM, sellers.TIPO_CLIENTE;
