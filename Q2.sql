@@ -18,3 +18,5 @@ DO
 	ON  sellers.CUST_ID = transactions.CUST_ID
 	WHERE DATEDIFF(TRANSACTION_DATE, CURDATE()) between -59 and 0 #Comienzo en el día actual. Between es inclusivo en inicio y fin.
 	GROUP BY COUNTRY, DATE_YM, sellers.TIPO_CLIENT;
+    
+SHOW EVENTS
