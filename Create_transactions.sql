@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS `DataMeli3`;
-USE `DataMeli3`;
+CREATE DATABASE IF NOT EXISTS `DataMeli`;
+USE `DataMeli`;
 DROP TABLE IF EXISTS `transactions`;
 
 CREATE TABLE `transactions` (

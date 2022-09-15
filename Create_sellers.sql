@@ -1,4 +1,4 @@
-USE `DataMeli3`;
+USE `DataMeli`;
 
 DROP TABLE IF EXISTS `sellers`;
 
