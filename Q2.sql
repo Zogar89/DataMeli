@@ -3,7 +3,7 @@
 
 CREATE EVENT Q2_test3
 ON SCHEDULE EVERY 1 DAY ON COMPLETION PRESERVE 
-/*Respecto al horario me gustaria que quede fijo sin importar a que hora lo programe para evitar el solapamiento y tener mas control.
+/*Respecto al horario me gustaria que quede fijo sin importar a que hora lo programe para evitar el solapamiento con otros y tener mas control.
 Las opciones que probé requerian cambiar la query para adaptarla al día de programación ya que da error si pongo una fecha fija pasada
 como estoy acostumbrado a hacer en los sistemas de mi trabajo actual. Necesito mas timpo para encontrar un método que satisfaga todo lo anterior*/
 DO
