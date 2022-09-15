@@ -1,11 +1,13 @@
-# Este tema no lo conocía así que seguí este video https://www.youtube.com/watch?v=GJ3M3daJA_E
-# Para la configuración del servidor al usar una instancia administrada de AWS RDS no cuento con privilegios de superuser, entonces seguí esta guia para aplicar un nuevo grupo de parámetros con event_scheduler ON https://stackoverflow.com/questions/14940910/creating-mysql-events-in-amazon-rds 
+/*Para que la siguiente consulta funcione debemos tener event scheduler activado.
+La configuración del servidor al usar una instancia administrada de AWS RDS no cuenta con privilegios de superuser, entonces seguí esta guia para aplicar un nuevo grupo de parámetros con event_scheduler ON https://stackoverflow.com/questions/14940910/creating-mysql-events-in-amazon-rds 
 
-CREATE EVENT Q2_test3
+Leí que este tipo de eventos no tienen cola de ejecución y si se solapan no se ejecutan.
+Por lo tanto, por diseño, la solución óptima que me hubiese gustado hacer es que se pueda setear desde la consulta un horario fijo, para así tener control y poder distribuir los eventos del servidor a lo largo del día. Esto se puede lograr estableciendo una fecha futura al momento de la programación del evento, pero obliga a editar la consulta cada vez que se programa ya que en una posible programación futura la consulta quedaría con una fecha pasada si no es actualizada y esto da error.
+Por el momento no encontré una solución a este problema y opté por una salida simple que ignora este tema pues el horario de ejecución dependerá de la hora de programación. 
+*/
+
+CREATE EVENT Lasts_60_days
 ON SCHEDULE EVERY 1 DAY ON COMPLETION PRESERVE 
-/*Respecto al horario me gustaria que quede fijo sin importar a que hora lo programe para evitar el solapamiento con otros y tener mas control.
-Las opciones que probé requerian cambiar la query para adaptarla al día de programación ya que da error si pongo una fecha fija pasada
-como estoy acostumbrado a hacer en los sistemas de mi trabajo actual. Necesito mas timpo para encontrar un método que satisfaga todo lo anterior*/
 DO
 	SELECT 	COUNTRY, 
 	DATE_FORMAT(TRANSACTION_DATE,'%Y%m' ) as DATE_YM, 
@@ -14,5 +16,5 @@ DO
 	FROM transactions
 	JOIN sellers
 	ON  sellers.CUST_ID = transactions.CUST_ID
-	WHERE DATEDIFF(TRANSACTION_DATE, CURDATE()) between -60 and 0
+	WHERE DATEDIFF(TRANSACTION_DATE, CURDATE()) between -59 and 0 #Comienzo en el día actual. Between es inclusivo en inicio y fin.
 	GROUP BY COUNTRY, DATE_YM, sellers.TIPO_CLIENT;
